@@ -1,0 +1,34 @@
+name: python workflow
+ 
+on:
+  workflow_dispatch
+ 
+jobs:
+  build:
+    # runs-on: self-hosted
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout content
+        uses: actions/checkout@v2
+ 
+      # - name: setup python
+      #   uses: actions/setup-python@v2
+      #   with:
+      #     python-version: '3.11'
+ 
+      - name: run python program
+        run: python index.py
+ 
+  secret_example:
+    needs: Example_environment_variables
+    runs-on: ubuntu-latest
+    if: ${{always}}
+    steps:
+        - name: checkout code
+          uses: actions/checkout@v2
+ 
+        - name: Use a secret variable
+         env: 
+          SECRET_TOKEN: ${{secrets.MY_SECRET_TOKEN}}
+        run: |
+          echo "The secret token is $SECRET_TOKEN"
